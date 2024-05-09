@@ -25,6 +25,11 @@ void btn_postorder(binTree*,void(), void*);
 void btn_preorder(binTree*,void(), void*);
 void sumarElementos(binTree*,int*);
 void contarNodos(binTree*,int*);
+binTree **minimo(binTree**,binTree**);
+binTree **obtenerMinimoDeArbol(binTree**, binTree**());
+int existeEnArbol(binTree**, t_elem_btree valor, int());
+void agregaNodo(binTree**,binTree*);
+void agregaValor(binTree**,t_elem_btree);
 
 int restarDosEnteros(int,int);
 int _max(int,int);

@@ -123,6 +123,40 @@ void contarNodos(binTree *arbol, int *cantNodos){
     (*cantNodos)++;
 }
 
+binTree **obtenerMinimoDeArbol(binTree **arbol, binTree **funcionComp(binTree**,binTree**)){
+    if(!*arbol)return arbol;
+    binTree **nodoMinimo=NULL;
+    binTree **aux1=obtenerMinimoDeArbol(&(*arbol)->right, funcionComp);
+    binTree **aux2=obtenerMinimoDeArbol(&(*arbol)->left, funcionComp);
+    nodoMinimo=funcionComp(aux1, aux2);
+    return funcionComp(nodoMinimo, arbol);
+}
+
+binTree **minimo(binTree **ptr1, binTree **ptr2){
+    if(!*ptr1)return ptr2;
+    if(!*ptr2)return ptr1;
+    return ((*ptr1)->value<(*ptr2)->value)? ptr1 : ptr2;
+}
+
+int existeEnArbol(binTree **arbol, t_elem_btree valor, int cmp(t_elem_btree, t_elem_btree)){
+    binTree **existe=btn_find(arbol, valor, cmp);
+    return (*existe)? 1 : 0;
+}
+
+void agregaValor(binTree **arbol, t_elem_btree valor){
+    binTree *nuevoNodo=btn_new(valor);
+    agregaNodo(arbol, nuevoNodo);
+}
+
+void agregaNodo(binTree **arbol, binTree *nuevoNodo){
+    if(!*arbol)(*arbol)=nuevoNodo;
+    else{
+        if(!(*arbol)->left) (*arbol)->left=nuevoNodo;
+        else if(!(*arbol)->right) (*arbol)->right=nuevoNodo;
+        else agregaNodo(&(*arbol)->left, nuevoNodo);
+    }
+}
+
 void sumarElementos(binTree *arbol, int *total){ (*total)+=arbol->value; }
 int restarDosEnteros(int a, int b) { return a-b; }
 int _max(int a, int b) { return (a > b) ? a : b; }
@@ -134,4 +168,3 @@ void imprimirValor(binTree *arbol, char *caracter){
         case 's' : printf("%s ", arbol->value); break;
     }
 }
-
