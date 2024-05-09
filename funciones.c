@@ -57,14 +57,6 @@ int btn_isLeaf(binTree *node){
     return esHoja;
 }
 
-int btn_count(binTree *node){
-    int result = 0;
-    if (node != NULL) {
-        result = 1 + btn_count(node->left) + btn_count(node->right);
-    }
-    return result;
-}
-
 void btn_insert(binTree **node, binTree *newNode){
     if(!newNode)return;
     binTree **aux=btn_find(node, newNode->value, restarDosEnteros);
@@ -82,44 +74,64 @@ int btn_insert_value(binTree **node, int value){
     return insertado;
 }
 
-int _btn_level(binTree *node, t_elem_btree value, int level, int cmp(t_elem_btree, t_elem_btree)) {
-    /*...*/
-    return 0;
-}
-
 int btn_level(binTree* root, t_elem_btree value, int cmp(t_elem_btree, t_elem_btree)){
-    /*...*/
-    return 0;
+    if(!root) return -1;
+    int nivel=-1;
+    binTree **aux=btn_find(&root, value, cmp);
+    if(*aux){
+        nivel=0;
+        if(root->value!=value){
+            aux=btn_find(&root->left, value, cmp);
+            if(*aux)nivel=1+btn_level(root->left, value, cmp);
+            else nivel=1+btn_level(root->right, value, cmp);
+        }
+    }
+    return nivel;
 }
 
 t_elem_btree btn_height(binTree *node){
     int result = -1;
-    /*...*/
+    if(node){
+        result=_max(btn_height(node->left), btn_height(node->right))+1;
+    }
     return result;
 }
 
-void btn_inorder(binTree *node, void btn_do(binTree*)){
+void btn_inorder(binTree *node, void btn_do(binTree*, void*), void *contexto){
     if(!node) return;
-    btn_inorder(node->left, btn_do);
-    btn_do(node);
-    btn_inorder(node->right, btn_do);
+    btn_inorder(node->left, btn_do, contexto);
+    btn_do(node, contexto);
+    btn_inorder(node->right, btn_do, contexto);
 }
 
-void btn_postorder(binTree *node, void btn_do(binTree*)){
+void btn_postorder(binTree *node, void btn_do(binTree*, void*), void *contexto){
     if (!node) return;
-    btn_postorder(node->left, btn_do);
-    btn_postorder(node->right, btn_do);
-    btn_do(node);
+    btn_postorder(node->left, btn_do, contexto);
+    btn_postorder(node->right, btn_do, contexto);
+    btn_do(node, contexto);
 }
 
-void btn_preorder(binTree *node, void btn_do(binTree*)){
+void btn_preorder(binTree *node, void btn_do(binTree*, void*), void *contexto){
     if (!node) return;
-    btn_do(node);
-    btn_preorder(node->left, btn_do);
-    btn_preorder(node->right, btn_do);
+    btn_do(node, contexto);
+    btn_preorder(node->left, btn_do, contexto);
+    btn_preorder(node->right, btn_do, contexto);
 }
 
+void contarNodos(binTree *arbol, int *cantNodos){
+    if(!arbol)return;
+    (*cantNodos)++;
+}
+
+void sumarElementos(binTree *arbol, int *total){ (*total)+=arbol->value; }
 int restarDosEnteros(int a, int b) { return a-b; }
 int _max(int a, int b) { return (a > b) ? a : b; }
-void imprimirValor(binTree *arbol){ printf("%d ", arbol->value); }
+void imprimirValor(binTree *arbol, char *caracter){
+    switch(*caracter){
+        case 'i' : printf("%d ", arbol->value); break;
+        case 'f' : printf("%.2f ", arbol->value); break;
+        case 'c' : printf("%c ", arbol->value); break;
+        case 's' : printf("%s ", arbol->value); break;
+    }
+}
 

@@ -20,12 +20,14 @@ int btn_insert_value(binTree**,int);
 int _btn_level(binTree*, t_elem_btree,int,int());
 int btn_level(binTree*,t_elem_btree,int());
 t_elem_btree btn_height(binTree*);
-void btn_inorder(binTree*,void());
-void btn_postorder(binTree*,void());
-void btn_preorder(binTree*,void());
+void btn_inorder(binTree*,void(), void*);
+void btn_postorder(binTree*,void(), void*);
+void btn_preorder(binTree*,void(), void*);
+void sumarElementos(binTree*,int*);
+void contarNodos(binTree*,int*);
 
 int restarDosEnteros(int,int);
 int _max(int,int);
-void imprimirValor(binTree*);
+void imprimirValor(binTree*, char*);
 
 #endif // PROTOTIPOS_H_INCLUDED
