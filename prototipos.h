@@ -30,6 +30,8 @@ binTree **obtenerMinimoDeArbol(binTree**, binTree**());
 int existeEnArbol(binTree**, t_elem_btree valor, int());
 void agregaNodo(binTree**,binTree*);
 void agregaValor(binTree**,t_elem_btree);
+int padreSumaDeHijos(binTree*);
+int esBinarioBusqueda(binTree*);
 
 int restarDosEnteros(int,int);
 int _max(int,int);

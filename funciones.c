@@ -123,21 +123,6 @@ void contarNodos(binTree *arbol, int *cantNodos){
     (*cantNodos)++;
 }
 
-binTree **obtenerMinimoDeArbol(binTree **arbol, binTree **funcionComp(binTree**,binTree**)){
-    if(!*arbol)return arbol;
-    binTree **nodoMinimo=NULL;
-    binTree **aux1=obtenerMinimoDeArbol(&(*arbol)->right, funcionComp);
-    binTree **aux2=obtenerMinimoDeArbol(&(*arbol)->left, funcionComp);
-    nodoMinimo=funcionComp(aux1, aux2);
-    return funcionComp(nodoMinimo, arbol);
-}
-
-binTree **minimo(binTree **ptr1, binTree **ptr2){
-    if(!*ptr1)return ptr2;
-    if(!*ptr2)return ptr1;
-    return ((*ptr1)->value<(*ptr2)->value)? ptr1 : ptr2;
-}
-
 int existeEnArbol(binTree **arbol, t_elem_btree valor, int cmp(t_elem_btree, t_elem_btree)){
     binTree **existe=btn_find(arbol, valor, cmp);
     return (*existe)? 1 : 0;
@@ -155,6 +140,42 @@ void agregaNodo(binTree **arbol, binTree *nuevoNodo){
         else if(!(*arbol)->right) (*arbol)->right=nuevoNodo;
         else agregaNodo(&(*arbol)->left, nuevoNodo);
     }
+}
+
+int padreSumaDeHijos(binTree *arbol){
+    int booleano=1;
+    if(!arbol||btn_isLeaf(arbol))return booleano;
+    if(arbol->value!=arbol->left->value+arbol->right->value)booleano=0;
+    if(booleano){
+        booleano=padreSumaDeHijos(arbol->left)&&padreSumaDeHijos(arbol->right);
+    }
+    return booleano;
+}
+
+int esBinarioBusqueda(binTree *arbol){
+    int booleano=1;
+    if(!arbol||btn_isLeaf(arbol))return booleano;
+    if(arbol->left&&arbol->value<arbol->left->value)booleano=0;
+    if(arbol->right&&arbol->value>arbol->right->value)booleano=0;
+    if(booleano){
+        booleano=esBinarioBusqueda(arbol->left)&&esBinarioBusqueda(arbol->right);
+    }
+    return booleano;
+}
+
+binTree **obtenerMinimoDeArbol(binTree **arbol, binTree **funcionComp(binTree**,binTree**)){
+    if(!*arbol)return arbol;
+    binTree **nodoMinimo=NULL;
+    binTree **aux1=obtenerMinimoDeArbol(&(*arbol)->right, funcionComp);
+    binTree **aux2=obtenerMinimoDeArbol(&(*arbol)->left, funcionComp);
+    nodoMinimo=funcionComp(aux1, aux2);
+    return funcionComp(nodoMinimo, arbol);
+}
+
+binTree **minimo(binTree **ptr1, binTree **ptr2){
+    if(!*ptr1)return ptr2;
+    if(!*ptr2)return ptr1;
+    return ((*ptr1)->value<(*ptr2)->value)? ptr1 : ptr2;
 }
 
 void sumarElementos(binTree *arbol, int *total){ (*total)+=arbol->value; }
