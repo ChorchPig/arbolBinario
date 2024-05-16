@@ -33,8 +33,8 @@ int esBinarioBusqueda(binTree*);
 int padreSumaDeHijos(binTree*);
 
 //Se rompen si el árbol no es binario de búsqueda
-void btn_insert(binTree**,binTree*);
-int btn_insert_value(binTree**,int);
+void btn_insert(binTree**,binTree*, int());
+int btn_insert_value(binTree**,int, int());
 binTree** btn_find(binTree**, t_elem_btree, int());
 int existeEnABB(binTree**, t_elem_btree valor, int());
 binTree* quitarNodoABB(binTree**,t_elem_btree,int());

@@ -77,7 +77,7 @@ binTree **obtenerMinimoDeArbol(binTree **arbol, binTree **funcionComp(binTree**,
 
 void copiarYOrdenarArbol(binTree **arbol, binTree **nuevoArbol){
     if(!*arbol) return;
-    btn_insert_value(nuevoArbol, (*arbol)->treeValue);
+    btn_insert_value(nuevoArbol, (*arbol)->treeValue, restarDosEnteros);
     copiarYOrdenarArbol(&(*arbol)->left, nuevoArbol);
     copiarYOrdenarArbol(&(*arbol)->right, nuevoArbol);
 }
@@ -103,18 +103,6 @@ void btn_preorder(binTree *node, void btn_do(binTree*, void*), void *contexto){
     btn_preorder(node->right, btn_do, contexto);
 }
 
-void recorridoAmplitud(binTree *arbol, void btn_do(binTree*,void*), void *contexto){
-    nodo *aux=NULL;
-    Fila *fila=crearFila(-1);
-    enqueue(fila, arbol);
-    while(!filaVacia(fila)){
-        aux=dequeue(fila);
-        btn_do(aux->nodeValue, contexto);
-        if(aux->nodeValue->left)enqueue(fila, aux->nodeValue->left);
-        if(aux->nodeValue->right)enqueue(fila, aux->nodeValue->right);
-    }
-    eliminarFila(fila);
-}
 
 t_elem_btree btn_height(binTree *node){
     int result = -1;

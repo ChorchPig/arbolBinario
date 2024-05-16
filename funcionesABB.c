@@ -2,15 +2,15 @@
 #include <stdlib.h>
 #include "prototipos.h"
 
-void btn_insert(binTree **node, binTree *newNode){
+void btn_insert(binTree **node, binTree *newNode, int cmp(t_elem_btree, t_elem_btree)){
     if(!newNode)return;
-    binTree **aux=btn_find(node, newNode->treeValue, restarDosEnteros);
+    binTree **aux=btn_find(node, newNode->treeValue, cmp);
     if(!*aux)*aux=newNode;
 }
 
-int btn_insert_value(binTree **node, int value){
+int btn_insert_value(binTree **node, int value, int cmp(t_elem_btree, t_elem_btree)){
     int insertado=0;
-    binTree **aux=btn_find(node, value, restarDosEnteros);
+    binTree **aux=btn_find(node, value, cmp);
     if(!*aux){
         binTree *nuevoNodo=btn_new(value);
         *aux=nuevoNodo;
@@ -39,7 +39,7 @@ binTree* quitarNodoABB(binTree** node, t_elem_btree data, int cmp(t_elem_btree, 
     binTree** found = btn_find(node, data, cmp);
     if (*found) {
         result = *found;
-        btn_insert(&(*found)->left, (*found)->right);
+        btn_insert(&(*found)->left, (*found)->right, restarDosEnteros);
         *found = (*found)->left;
         result->left = NULL;
         result->right = NULL;
@@ -52,7 +52,7 @@ void fusionarArboles(binTree **arbol1, binTree **arbol2, int cmp(t_elem_btree, t
     while(*arbol2){
         aux=quitarNodoABB(arbol2, (*arbol2)->treeValue, cmp);
         if(aux&&!existeEnABB(arbol1, aux->treeValue, cmp)){
-            btn_insert(arbol1, aux);
+            btn_insert(arbol1, aux, restarDosEnteros);
         }
         else free(aux);
     }

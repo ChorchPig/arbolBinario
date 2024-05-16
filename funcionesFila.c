@@ -81,12 +81,6 @@ NODE_ELEMENT getFirstValue(Fila *fila){
     return fila->inicioFila->nodeValue;
 }
 
-void eliminarFila(Fila *fila){
-    if(!fila)return;
-    while(!filaVacia(fila))dequeueFree(fila);
-    free(fila);
-}
-
 void imprimirFila(Fila *fila){
     if(!fila)return;
     Fila *aux=crearFila(fila->currentSize);
