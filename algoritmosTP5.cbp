@@ -34,6 +34,12 @@
 		<Unit filename="funciones.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="funcionesABB.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="funcionesFila.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
